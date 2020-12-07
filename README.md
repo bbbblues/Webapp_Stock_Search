@@ -6,11 +6,15 @@ An Angular-powered stock information search website with bookmark and portfolio 
 ***Features:*** stock trading logic, search query auto-complete, stock live charts, navigation bar, news Twitter sharing...
 
 ***Sreenshots:***
-![Home page]
-![Detial page]
-![news]
-![Portfolio]
+![Home page](homepage.png)
+
+![Detial page](detail_page.png)
+
+![news](news.png)
+
+![Portfolio](portfolio.png)
 
 [Demonstration Video(Desktop)](https://www.youtube.com/watch?v=tzkWB85ULJY&feature=youtu.be)
+
 [Demonstration Video(Mobile)](https://www.youtube.com/watch?v=LF3T3ghxHDU&feature=youtu.be)
 
