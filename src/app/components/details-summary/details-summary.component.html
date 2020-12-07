@@ -1,0 +1,39 @@
+
+<div class='container'>
+  <div class='row mt-4' >
+    <div class='col-sm-6'>
+      <div class='row mb-3' style="text-align: center;">
+        <div class='col-6'>
+          <p>High Price: {{price.high}}</p>
+          <p>Low Price: {{price.low}}</p>
+          <p>Open Price: {{price.open}}</p>
+          <p>Prev. Close: {{price.prevClose}}</p>
+          <p>Volume: {{price.volume}}</p>
+        </div>
+        <div class='col-6' *ngIf="curDetail.isOpen">
+          <p>Mid Price: {{price.mid}}</p>
+          <p>Ask Price: {{price.askPrice}}</p>
+          <p>Ask Size: {{price.askSize}}</p>
+          <p>Bid Price: {{price.bidPrice}}</p>
+          <p>Bid Size: {{price.bidSize}}</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="mb-3" style="font-size: 1.1rem; font-weight: bold; text-align: center;"> Company's Description </p>
+        <p class="mb-2"> Start Date: {{ curDetail.companyDes.startDate }}</p>
+        <p> {{ curDetail.companyDes.description }}</p>
+      </div>
+
+    </div>
+
+    <div class='col-sm-6'>
+        <highcharts-chart 
+        [Highcharts]="Highcharts" 
+        [constructorType]="'stockChart'" 
+        [options]="chartOptions"
+        style="width: 100%; display: block;">
+      </highcharts-chart>
+    </div>
+  </div>
+</div>
