@@ -1,0 +1,104 @@
+
+<div class="container">
+    <div class="row" *ngFor="let newsPair of news">
+        <div class="col-sm-6" *ngFor="let newsPiece of newsPair">
+            <div class="card mt-3">
+                <div class="card-body" (click)="openNews(newsDetails)">
+
+                    <ng-template #newsDetails let-modal>
+                        <div class="modal-header">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-10">
+                                    <h2 class="modal-title" id="modal-basic-title">{{ newsPiece.source }}</h2>
+                                    <p style="font-size: 0.8rem; color:darkgray"> {{ newsPiece.publishedAt }}</p>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <p style="font-size: 1rem; font-weight: bold;"> {{ newsPiece.title }} </p>
+                            <p> {{ newsPiece.description }}</p>
+                            <p> For more details click <a href="{{newsPiece.url}}" target="_blank">here</a></p>
+                            <div class="card mt-5">
+                                <div class="card-body">
+                                    <p> Share </p>
+                                    <a class="twitter-share-button" 
+                                        href= "https://twitter.com/intent/tweet?text={{encode(newsPiece.title + ' ' + newsPiece.url)}}"
+                                        target="_blank">
+                                        <fa-icon [icon]="twitterIcon"></fa-icon>
+                                    </a>
+                                    <a class="fb-share-button" 
+                                        href="https://www.facebook.com/sharer/sharer.php?u={{encode(newsPiece.url)}}"
+                                        target="_blank">
+                                        <fa-icon [icon]="facebookIcon"></fa-icon>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                      </ng-template>
+
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="{{ newsPiece.urlToImage }}" style>
+                        </div>
+
+                        <div class="col-sm-9">
+                            <p class="vertical"> {{newsPiece.title}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="col-sm-6">
+            <div class="card mt-3" *ngFor="let newsPiece of newsRight" >
+                <div class="card-body" (click)="openNews(newsDetails)">
+
+                    <ng-template #newsDetails let-modal>
+                        <div class="modal-header">
+                          <h2 class="modal-title" id="modal-basic-title">{{ newsPiece.source }}</h2>
+                          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <p> {{ newsPiece.publishedAt }}</p>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <p> {{ newsPiece.title }} </p>
+                            <p> {{ newsPiece.description }}</p>
+                            <p> For more details click <a href="{{newsPiece.url}}">here</a></p>
+                            <div class="card mt-5">
+                                <div class="card-body">
+                                    <p> Share </p>
+                                    <a class="twitter-share-button" href="https://twitter.com/intent/tweet">
+                                        <fa-icon [icon]="['fab', 'twitter']"></fa-icon>
+                                    </a>
+                                    <a class="fb-share-button" href="https://twitter.com/intent/tweet">
+                                        <fa-icon [icon]="['fab', 'facebook']"></fa-icon>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                      </ng-template>
+
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img src="{{ newsPiece.urlToImage }}">
+                        </div>
+
+                        <div class="col-sm-9">
+                            <p class="vertical"> {{newsPiece.title}} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

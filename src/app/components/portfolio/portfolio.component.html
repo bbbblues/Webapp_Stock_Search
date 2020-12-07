@@ -1,0 +1,119 @@
+
+<div class="container">
+    <h1 class='mb-5 mt-5'>My Portfolio</h1>
+
+    <mat-spinner *ngIf="isWait" diameter="70" style="margin:5rem auto;"></mat-spinner>
+
+    <div *ngIf="!isWait">
+      
+      <ngb-alert *ngIf="!hasBuylist" type="warning" [dismissible]="false" style="text-align: center;">
+        Currently you don't have any stock.
+      </ngb-alert>
+
+      <div class="card mb-3" *ngFor="let stock of stocklist" >
+        
+        <div class="card-header" (click)="openDetails(stock.ticker)">
+            <span class="ticker"> {{ stock.ticker }} </span> <span class="name"> {{ stock.name }} </span>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <p> Quantity: </p>
+                            <p> Avg. Cost / Share: </p>
+                            <p> Total Cost: </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-right"> {{ stock.quantity }} </p>
+                            <p class="text-right"> {{ stock.avgCost }} </p>
+                            <p class="text-right"> {{ stock.totalCost }} </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-6">
+                            <p> Change: </p>
+                            <p> Current Price: </p>
+                            <p> Market Value: </p>
+                        </div>
+                        <div class="col-6" [ngStyle]="stock.change == 0 ? {'color':'black'} : (stock.change > 0 ? {'color':'#28803f'} : {'color': '#ff0000'})">
+                            <p class="text-right"> 
+                                <svg *ngIf="stock.change > 0" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="#28803f" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                </svg>
+                                <svg *ngIf="stock.change < 0" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="#ff0000" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                                {{ stock.change }} 
+                            </p>
+                            <p class="text-right"> {{ stock.curPrice }} </p>
+                            <p class="text-right"> {{ stock.marketValue }} </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-footer">
+            <ng-template #buy let-modal>
+                <div class="modal-header">
+                  <h3 class="modal-title" id="modal-basic-title">{{ stock.ticker }}</h3>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form [formGroup]="qtBuyForm" (ngSubmit)="onBuyFormSubmit(qtBuyForm.value, stock.ticker)">
+                    <div class="modal-body">
+                      <p> Current Price: {{ stock.curPrice }} </p>
+                      <div class="input-group" style="display: inline-block;">
+                        <span style="float: left;">Quantity&nbsp;&nbsp;&nbsp;</span>
+                        <input type="number" formControlName="qtBuy" required value="0" min="1" class="form-control" pattern="^[1-9][0-9]*$" placeholder="" style="width: 30%; float: left;">
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <span style="position: absolute; left: 3%;">Total: {{ (stock.curPrice * qtBuyForm.value.qtBuy).toFixed(2) }}</span>
+                      <button type="submit" class="btn btn-success" [disabled]="qtBuyForm.invalid">Buy</button>
+                    </div>
+                </form> 
+              </ng-template>
+
+              <ng-template #sell let-modal>
+                <div class="modal-header">
+                  <h3 class="modal-title" id="modal-basic-title">{{ stock.ticker }}</h3>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form [formGroup]="qtSellForm" (ngSubmit)="onSellFormSubmit(qtSellForm.value, stock.ticker)">
+                    <div class="modal-body">
+                      <p> Current Price: {{ stock.curPrice }} </p>
+                      <div class="input-group" style="display: inline-block;">
+                        <span style="float: left;">Quantity&nbsp;&nbsp;&nbsp;</span>
+                        <input type="number" formControlName="qtSell" required value="0" min="1" max="stock.quantity" class="form-control" pattern="^[1-9][0-9]*$" placeholder="" style="width: 30%; float: left">
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <span style="position: absolute; left: 3%;">Total: {{ (stock.curPrice * qtSellForm.value.qtSell).toFixed(2) }}</span>
+                      <button type="submit" class="btn btn-success" [disabled]="qtSellForm.invalid || qtSellForm.value.qtSell > stock.quantity">Sell</button>
+                    </div>
+                </form> 
+              </ng-template>
+
+            <div class="btn-toolbar float-right">
+                <button type="button" class="btn btn-primary " (click)="open(buy)">Buy</button>
+                <button type="button" class="btn btn-danger" (click)="open(sell)">Sell</button>
+            </div>
+        </div>
+      </div>
+
+
+    </div>
+
+</div>

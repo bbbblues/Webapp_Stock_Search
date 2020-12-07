@@ -1,0 +1,42 @@
+p {
+    text-align: center;
+    margin: auto;
+    margin-top: 8rem;
+    font-size: 3.6rem;
+    font-weight: bold;
+    line-height: 60px;
+}
+
+/* .input-icons {
+    position: relative;
+} */
+
+#inputText {
+    border-radius: 2em;
+    border-color: slateblue;
+    border-width: 0.2em;
+    width: 15rem;
+    margin: auto;
+    margin-top: 5rem;
+    /* overflow: hidden; */
+    position: relative;
+    left: 39%;
+}
+
+button {
+    background: transparent;
+    border: transparent;
+    position: absolute;
+    top: 15.5%;
+    left: 58%;
+    position: relative;
+    left: 35%;
+}
+
+fa-icon {
+    color: slateblue;
+}
+
+/* mat-autocomplete {
+    margin: auto;
+} */

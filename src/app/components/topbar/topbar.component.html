@@ -1,0 +1,28 @@
+
+<nav class='navbar navbar-expand-lg' style='background-color:slateblue;'>
+    <div class='mr-auto'>
+        <span class='navbar-text mr-auto'>Stock Search</span>
+    </div>
+
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed" style="color: white;">
+        &#9776;
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse" id="collapseContent">
+        <ul class="navbar-nav ml-auto" routerLinkActive="active">
+            <li *ngFor='let navItem of navs' class='nav-item' (click)="activate(navItem)" [ngClass]="{'active': navItem.active}">
+                <a class='nav-link' [routerLink]='navItem.link' (click)="isMenuCollapsed = true">{{ navItem.name }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapseContent" aria-controls="collapseContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapseContent">
+        <ul class="navbar-nav ml-auto" routerLinkActive="active">
+            <li *ngFor='let navItem of navs' class='nav-item' (click)="activate(navItem)" [ngClass]="{'active': navItem.active}">
+                <a class='nav-link' [routerLink]='navItem.link'>{{ navItem.name }}</a>
+            </li>
+        </ul>
+    </div> -->
+</nav>

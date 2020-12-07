@@ -1,0 +1,28 @@
+.navbar span {
+    color: white;
+}
+
+.nav-link {
+    color: rgb(156, 156, 156);
+    padding-right: 0.5rem;
+}
+
+.navbar-nav > li.active > a {
+    border: solid;
+    border-radius: 1rem;
+    border-color: white;
+    border-width: 0.15rem;
+    color: white;
+}
+
+a {
+    text-align: right;
+}
+
+a:hover {
+    color: rgb(209, 209, 209);
+}
+
+.navbar-text {
+    font-size: 1.1rem;
+}

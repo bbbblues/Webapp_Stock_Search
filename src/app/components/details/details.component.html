@@ -1,0 +1,101 @@
+
+
+    <mat-spinner *ngIf="isWait" diameter="70" style="margin: auto; margin-top: 5rem;"></mat-spinner>
+
+    <div *ngIf="!isWait">
+
+    <div *ngIf="!valid" class="container">
+        <ngb-alert type="danger" [dismissible]="false" style="text-align: center;" class="mt-5">No results found. Please enter valid Ticker.</ngb-alert>
+    </div>
+
+    <div *ngIf="valid" class="container">
+        <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = ''" class="mt-4">{{ successMessage }}</ngb-alert>
+        <ngb-alert *ngIf="dangerMessage" type="danger" (close)="dangerMessage = ''" class="mt-4">{{ dangerMessage }}</ngb-alert>
+        <ngb-alert *ngIf="buyMessage" type="success" (close)="buyMessage = ''" class="mt-4">{{ buyMessage }}</ngb-alert>
+
+        <div class="row mt-4">
+            <div class="col-6">
+                <p style="font-size: 2rem; font-weight: bold;"> {{ companyDes.ticker }}
+                    <span class="star" (click)="starFilled=!starFilled; updateWatchlist()">
+                        <svg *ngIf="!starFilled" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                        </svg>
+                        <svg *ngIf="starFilled" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill" fill="#ffcc00" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                        </svg>
+                    </span>
+                </p>
+
+                <p style="font-size: 1.5rem; font-weight: bold; color:darkgray;"> {{ companyDes.name }} </p>
+                <p> {{ companyDes.exchangeCode}} </p>
+
+                <ng-template #buy let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">{{ companyDes.ticker }}</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <form [formGroup]="qtForm" (ngSubmit)="onSubmit(qtForm.value)">
+
+                        <div class="modal-body">
+                          <p> Current Price: {{ price.last }} </p>
+                          <div class="input-group" style="display: inline-block;">
+                            <span style="float: left;">Quantity&nbsp;&nbsp;&nbsp;</span>
+                            <input type="number" formControlName="qt" required value="0" min="1" class="form-control" pattern="^[1-9][0-9]*$" placeholder="" style="width: 30%; float: left;">
+                          </div>
+                        </div>
+
+                        <div class="modal-footer">
+                          <span style="position: absolute; left: 3%;">Total: {{ (price.last * qtForm.value.qt).toFixed(2) }}</span>
+                          <button type="submit" class="btn btn-success" [disabled]="qtForm.invalid">Buy</button>
+                        </div>
+                    </form>
+                    
+                </ng-template>
+
+
+                <button type="button" class="btn btn-success" (click)="open(buy)">Buy</button>
+            </div>
+
+            <div class="col-6">
+                <p class="text-right" style="font-size: 2rem;" [ngStyle]="price.change == 0 ? {'color':'black'} : (price.change > 0 ? {'color':'#28803f'} : {'color': '#ff0000'})"> 
+                    {{ price.last }} 
+                </p>
+                <p class="text-right" style="font-size: 1.5rem;" [ngStyle]="price.change == 0 ? {'color':'black'} : (price.change > 0 ? {'color':'#28803f'} : {'color': '#ff0000'})">
+                    <svg *ngIf="price.change > 0" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="#28803f" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                    </svg>
+                    <svg *ngIf="price.change < 0" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="#ff0000" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                    </svg>
+                    <svg *ngIf="price.change == 0" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-down-fill" fill="black" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                    </svg>
+                    {{ price.change }} ({{ price.changePercentage }}%)
+                </p>
+                <p class="text-right"> {{ curTime }} </p>
+            </div>
+
+        </div>
+
+        <div class="mb-5 mt-3" style="text-align: center;">
+            <span *ngIf="isOpen" class="openP" style="background-color: darkseagreen;">Market is Open</span>
+            <span *ngIf="!isOpen" class="closeP" style="background-color:lightcoral;">Market Closed on {{ price.timestamp }}</span>
+        </div>
+
+
+        <mat-tab-group mat-stretch-tabs class="example-stretched-tabs">
+            <mat-tab label="Summary"> <app-details-summary></app-details-summary> </mat-tab>
+            <mat-tab label="Top News"> <app-details-news></app-details-news> </mat-tab>
+            <mat-tab label="Charts"> 
+                <ng-template matTabContent>
+                    <app-details-charts></app-details-charts> 
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+    </div>
+
+

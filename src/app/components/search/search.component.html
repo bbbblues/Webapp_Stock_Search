@@ -1,0 +1,21 @@
+<div class='container'>
+
+            <p>STOCK SEARCH</p>
+
+            <form (ngSubmit)="onSubmit(control.value)">
+                <input type="text" id="inputText" placeholder="Enter stock name" [formControl]="control" [matAutocomplete]="auto" matInput>
+                <button type="submit"><fa-icon [icon]="searchIcon"></fa-icon></button>
+
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngIf="isLoading" class="is-loading"><mat-spinner diameter="50"></mat-spinner></mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option *ngFor="let option of options" [value]="option.ticker">
+                            <span>{{option.ticker}}</span> | <small>{{option.name}}</small>
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+
+            </form>
+
+</div>
+

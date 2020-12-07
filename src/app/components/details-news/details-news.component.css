@@ -1,0 +1,16 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    height: 90%;
+}
+
+.twitter-share-button {
+    font-size: 2.5rem;
+}
+
+.fb-share-button {
+    font-size: 2.5rem;
+}
